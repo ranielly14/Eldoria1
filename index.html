@@ -4,81 +4,69 @@
 <meta charset="UTF-8">
 <title>Lendas de Eldoria</title>
 <style>
-body {
-    margin: 0;
-    font-family: 'Trebuchet MS', sans-serif;
-    background: linear-gradient(to bottom, #1a1a2e, #16213e);
-    color: white;
-    text-align: center;
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(to bottom,#1a1a2e,#0f3460);
+color:white;
+text-align:center;
 }
 
-header {
-    padding: 40px;
-    background: #0f3460;
-    font-size: 40px;
-    font-weight: bold;
+header{
+padding:30px;
+font-size:35px;
+background:#16213e;
 }
 
-button {
-    padding: 15px 30px;
-    margin: 10px;
-    border: none;
-    border-radius: 10px;
-    background: gold;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
+button{
+padding:10px 20px;
+margin:5px;
+border:none;
+border-radius:8px;
+background:gold;
+font-weight:bold;
+cursor:pointer;
 }
 
-button:hover {
-    background: orange;
+button:hover{
+background:orange;
 }
 
-.section {
-    display: none;
-    padding: 30px;
+.section{
+display:none;
+padding:20px;
 }
 
-.active {
-    display: block;
+.active{
+display:block;
 }
 
-.card {
-    background: #0f3460;
-    padding: 20px;
-    margin: 15px;
-    border-radius: 15px;
-    display: inline-block;
-    width: 250px;
+.card{
+background:#16213e;
+padding:15px;
+margin:10px;
+border-radius:10px;
+display:inline-block;
+width:220px;
 }
 
-footer {
-    margin-top: 40px;
-    padding: 20px;
-    background: #0f3460;
+.barra{
+height:20px;
+background:red;
+border-radius:10px;
+margin:10px auto;
+width:200px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-LENDAS DE ELDORIA
-</header>
+<header>LENDAS DE ELDORIA</header>
 
 <div id="menu" class="section active">
-<h2>O mundo está à beira do caos...</h2>
-<p>Um dragão ancestral despertou. O portal sombrio foi aberto. Só você pode decidir o destino de Eldoria.</p>
-<button onclick="mostrar('lore')">Ver Lore</button>
-<button onclick="mostrar('classes')">Escolher Classe</button>
-</div>
-
-<div id="lore" class="section">
-<h2>A História</h2>
-<p>Há mil anos, o selo arcano manteve as criaturas das sombras presas além do véu.  
-Mas agora o selo quebrou. Um portal surgiu nas montanhas negras.  
-O Dragão Rubro voltou a voar.</p>
-<button onclick="voltar()">Voltar</button>
+<h2>O Dragão Rubro despertou.</h2>
+<button onclick="mostrar('classes')">Começar Jornada</button>
 </div>
 
 <div id="classes" class="section">
@@ -86,67 +74,115 @@ O Dragão Rubro voltou a voar.</p>
 
 <div class="card">
 <h3>⚔ Guerreiro</h3>
-<p>Força bruta e honra inabalável.</p>
-<button onclick="iniciar('Guerreiro')">Escolher</button>
+<p>Vida alta, dano médio</p>
+<button onclick="iniciar('Guerreiro',120,15)">Escolher</button>
 </div>
 
 <div class="card">
 <h3>🔥 Mago</h3>
-<p>Manipula magia antiga e proibida.</p>
-<button onclick="iniciar('Mago')">Escolher</button>
+<p>Vida média, dano alto</p>
+<button onclick="iniciar('Mago',90,25)">Escolher</button>
 </div>
 
 <div class="card">
 <h3>🏹 Arqueiro</h3>
-<p>Preciso, ágil e silencioso.</p>
-<button onclick="iniciar('Arqueiro')">Escolher</button>
+<p>Equilibrado e ágil</p>
+<button onclick="iniciar('Arqueiro',100,18)">Escolher</button>
 </div>
 
-<br>
-<button onclick="voltar()">Voltar</button>
 </div>
 
 <div id="jogo" class="section">
-<h2 id="classeEscolhida"></h2>
-<p id="evento"></p>
-<button onclick="lutar()">Enfrentar o Dragão</button>
-<button onclick="voltarMenu()">Voltar ao Menu</button>
+<h2 id="classeNome"></h2>
+
+<p>Vida do Herói:</p>
+<div class="barra" id="vidaHeroi"></div>
+
+<p>Vida do Dragão:</p>
+<div class="barra" id="vidaDragao"></div>
+
+<p id="mensagem"></p>
+
+<button onclick="atacar()">Atacar</button>
+<button onclick="especial()">Ataque Especial</button>
+<button onclick="loja()">Visitar Loja (10 ouro)</button>
+<button onclick="reiniciar()">Recomeçar</button>
 </div>
 
-<footer>
-© 2026 - Estúdio Indie do Manu
-</footer>
-
 <script>
-let classe = "";
+let vidaHeroi;
+let vidaDragao;
+let danoBase;
+let ouro=20;
 
-function mostrar(secao) {
-    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-    document.getElementById(secao).classList.add("active");
+function mostrar(secao){
+document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+document.getElementById(secao).classList.add("active");
 }
 
-function voltar() {
-    mostrar("menu");
+function iniciar(classe,vida,dano){
+vidaHeroi=vida;
+vidaDragao=150;
+danoBase=dano;
+document.getElementById("classeNome").innerText="Classe: "+classe+" | Ouro: "+ouro;
+atualizarBarras();
+mostrar("jogo");
 }
 
-function voltarMenu() {
-    mostrar("menu");
+function atualizarBarras(){
+document.getElementById("vidaHeroi").style.width=vidaHeroi+"px";
+document.getElementById("vidaDragao").style.width=vidaDragao+"px";
 }
 
-function iniciar(c) {
-    classe = c;
-    document.getElementById("classeEscolhida").innerText = "Você escolheu: " + classe;
-    document.getElementById("evento").innerText = "O Dragão Rubro aparece nos céus...";
-    mostrar("jogo");
+function atacar(){
+let dano=Math.floor(Math.random()*danoBase);
+vidaDragao-=dano;
+
+let contra=Math.floor(Math.random()*20);
+vidaHeroi-=contra;
+
+document.getElementById("mensagem").innerText=
+"Você causou "+dano+" de dano. Dragão causou "+contra+"!";
+
+verificar();
+atualizarBarras();
 }
 
-function lutar() {
-    let sorte = Math.random();
-    if (sorte > 0.5) {
-        document.getElementById("evento").innerText = "Você derrotou o Dragão! Eldoria está salva! 🔥";
-    } else {
-        document.getElementById("evento").innerText = "O Dragão era forte demais... Eldoria caiu nas sombras... ☠";
-    }
+function especial(){
+let dano=Math.floor(Math.random()*40)+20;
+vidaDragao-=dano;
+vidaHeroi-=15;
+
+document.getElementById("mensagem").innerText=
+"Ataque especial! "+dano+" de dano! Mas você perdeu 15 de vida.";
+
+verificar();
+atualizarBarras();
+}
+
+function loja(){
+if(ouro>=10){
+ouro-=10;
+vidaHeroi+=20;
+document.getElementById("mensagem").innerText="Você comprou poção! +20 vida.";
+}else{
+document.getElementById("mensagem").innerText="Ouro insuficiente!";
+}
+document.getElementById("classeNome").innerText+=" | Ouro: "+ouro;
+atualizarBarras();
+}
+
+function verificar(){
+if(vidaDragao<=0){
+document.getElementById("mensagem").innerText="VOCÊ DERROTOU O DRAGÃO! Eldoria está salva!";
+}
+if(vidaHeroi<=0){
+document.getElementById("mensagem").innerText="Você caiu... O Dragão domina Eldoria.";
+}
+}
+
+function reiniciar(){
+location.reload();
 }
 </script>
 
