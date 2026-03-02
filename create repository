@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Lendas de Eldoria</title>
+<style>
+body {
+    margin: 0;
+    font-family: 'Trebuchet MS', sans-serif;
+    background: linear-gradient(to bottom, #1a1a2e, #16213e);
+    color: white;
+    text-align: center;
+}
+
+header {
+    padding: 40px;
+    background: #0f3460;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+button {
+    padding: 15px 30px;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    background: gold;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: orange;
+}
+
+.section {
+    display: none;
+    padding: 30px;
+}
+
+.active {
+    display: block;
+}
+
+.card {
+    background: #0f3460;
+    padding: 20px;
+    margin: 15px;
+    border-radius: 15px;
+    display: inline-block;
+    width: 250px;
+}
+
+footer {
+    margin-top: 40px;
+    padding: 20px;
+    background: #0f3460;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+LENDAS DE ELDORIA
+</header>
+
+<div id="menu" class="section active">
+<h2>O mundo está à beira do caos...</h2>
+<p>Um dragão ancestral despertou. O portal sombrio foi aberto. Só você pode decidir o destino de Eldoria.</p>
+<button onclick="mostrar('lore')">Ver Lore</button>
+<button onclick="mostrar('classes')">Escolher Classe</button>
+</div>
+
+<div id="lore" class="section">
+<h2>A História</h2>
+<p>Há mil anos, o selo arcano manteve as criaturas das sombras presas além do véu.  
+Mas agora o selo quebrou. Um portal surgiu nas montanhas negras.  
+O Dragão Rubro voltou a voar.</p>
+<button onclick="voltar()">Voltar</button>
+</div>
+
+<div id="classes" class="section">
+<h2>Escolha sua Classe</h2>
+
+<div class="card">
+<h3>⚔ Guerreiro</h3>
+<p>Força bruta e honra inabalável.</p>
+<button onclick="iniciar('Guerreiro')">Escolher</button>
+</div>
+
+<div class="card">
+<h3>🔥 Mago</h3>
+<p>Manipula magia antiga e proibida.</p>
+<button onclick="iniciar('Mago')">Escolher</button>
+</div>
+
+<div class="card">
+<h3>🏹 Arqueiro</h3>
+<p>Preciso, ágil e silencioso.</p>
+<button onclick="iniciar('Arqueiro')">Escolher</button>
+</div>
+
+<br>
+<button onclick="voltar()">Voltar</button>
+</div>
+
+<div id="jogo" class="section">
+<h2 id="classeEscolhida"></h2>
+<p id="evento"></p>
+<button onclick="lutar()">Enfrentar o Dragão</button>
+<button onclick="voltarMenu()">Voltar ao Menu</button>
+</div>
+
+<footer>
+© 2026 - Estúdio Indie do Manu
+</footer>
+
+<script>
+let classe = "";
+
+function mostrar(secao) {
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById(secao).classList.add("active");
+}
+
+function voltar() {
+    mostrar("menu");
+}
+
+function voltarMenu() {
+    mostrar("menu");
+}
+
+function iniciar(c) {
+    classe = c;
+    document.getElementById("classeEscolhida").innerText = "Você escolheu: " + classe;
+    document.getElementById("evento").innerText = "O Dragão Rubro aparece nos céus...";
+    mostrar("jogo");
+}
+
+function lutar() {
+    let sorte = Math.random();
+    if (sorte > 0.5) {
+        document.getElementById("evento").innerText = "Você derrotou o Dragão! Eldoria está salva! 🔥";
+    } else {
+        document.getElementById("evento").innerText = "O Dragão era forte demais... Eldoria caiu nas sombras... ☠";
+    }
+}
+</script>
+
+</body>
+</html>
